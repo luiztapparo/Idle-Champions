@@ -575,7 +575,7 @@ class IC_SharedFunctions_Class
     {
 	;EDIT!!! Trying to avoid Everlasting Rime hit-based ROC z50 for 6j 100% Briv
         hitZoneAvoid := Mod(this.Memory.ReadCurrentZone(), 50)
-        if (hitZoneAvoid == 37 or hitZoneAvoid == 38 or hitZoneAvoid == 42)
+        if (hitZoneAvoid == 1 or hitZoneAvoid == 8)
             return true
         ;bench briv if jump animation override is added to list and it isn't a quick transition (reading ReadFormationTransitionDir makes sure QT isn't read too early)
         if (this.Memory.ReadTransitionOverrideSize() == 1 AND this.Memory.ReadTransitionDirection() != 2 AND this.Memory.ReadFormationTransitionDir() == 3 )
@@ -599,7 +599,7 @@ class IC_SharedFunctions_Class
     {
 	;EDIT!! Trying to avoid Everlasting Rime hit-based ROC z50
 	hitZoneAvoid := Mod(this.Memory.ReadCurrentZone(), 50)
-	if (hitZoneAvoid == 37 or hitZoneAvoid == 38 or hitZoneAvoid == 42)
+	if (hitZoneAvoid == 1 or hitZoneAvoid == 8)
 	    return false
         ;keep Briv benched if 'Avoid Bosses' setting is enabled and on a boss zone
         if (settings[ "AvoidBosses" ] AND !Mod( this.Memory.ReadCurrentZone(), 5 ))
