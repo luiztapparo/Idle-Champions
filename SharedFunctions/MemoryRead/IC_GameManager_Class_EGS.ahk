@@ -28,7 +28,8 @@ class IC_GameManagerEGS_Class
         ;structure pointers
         ;==================
         this.Main := new _ClassMemory("ahk_exe IdleDragons.exe", "", hProcessCopy)
-        this.BaseAddress := this.Main.getModuleBaseAddress("mono-2.0-bdwgc.dll")+0x00491A90
+        this.BaseAddress := this.Main.getModuleBaseAddress("mono-2.0-bdwgc.dll")+0x00495A90
+        this.IdleGameManager := New GameObjectStructure([0xCB0])
         ;=========================================
         ;Base addresses and Handlers
         ;=========================================
