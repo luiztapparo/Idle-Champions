@@ -13,6 +13,8 @@ global g_SharedData := new IC_SharedData_Class
 #include %A_LineFile%\..\IC_KeyHelper_Class.ahk
 #include %A_LineFile%\..\IC_ArrayFunctions_Class.ahk
 #include %A_LineFile%\..\MemoryRead\IC_MemoryFunctions_Class.ahk
+;Shandie's Dash handler
+#include %A_LineFile%\..\MemoryRead\EffectKeyHandlers\TimeScaleWhenNotAttackedHandler.ahk
 
 class IC_SharedData_Class
 {
@@ -393,11 +395,10 @@ class IC_SharedFunctions_Class
     {
         this.ToggleAutoProgress( 0, false, true )
         this.LevelChampByID( 47, 230, 7000, "{q}") ; level shandie
-        ; Make sure the ability handler has the correct base address.
-        ; It can change on game restarts or modron resets.
-        this.Memory.ActiveEffectKeyHandler.Refresh()
         StartTime := A_TickCount
         ElapsedTime := 0
+        dash := new TimeScaleWhenNotAttackedHandler ; create a new Dash Handler object.
+        dash.Initialize()
         timeScale := this.Memory.ReadTimeScaleMultiplier()
         timeScale := timeScale < 1 ? 1 : timeScale ; time scale should never be less than 1
         timeout := 60000 ; 60s seconds ( previously / timescale (6s at 10x) )
@@ -406,9 +407,11 @@ class IC_SharedFunctions_Class
         ;   does full timeout duration
         ;   past highest accepted dashwait triggering area
         ;   dash is active, dash.GetScaleActive() toggles to true when dash is active and returns "" if fails to read.
-        while ( ElapsedTime < timeout AND this.Memory.ReadCurrentZone() < DashWaitMaxZone AND !this.IsDashActive() )
+        while ( ElapsedTime < timeout AND this.Memory.ReadCurrentZone() < DashWaitMaxZone AND !(dash.GetScaleActive()) )
         {
             this.ToggleAutoProgress(0)
+            if !(this.SafetyCheck()) OR !(dash.IsBaseAddressCorrect())
+                dash.Initialize()
             ElapsedTime := A_TickCount - StartTime
             g_SharedData.LoopString := "Dash Wait: " . ElapsedTime . " / " . estimate
         }
@@ -437,10 +440,13 @@ class IC_SharedFunctions_Class
     ; Searches TimeScale dictionary objects for TimeScaleWhenNotAttackedHandler (Shandie's Dash)
     IsDashActive()
     {
-        if(ActiveEffectKeySharedFunctions.Shandie.TimeScaleWhenNotAttackedHandler.ReadDashActive())
-            return true
-        else if (!this.Memory.ActiveEffectKeyHandler.TimeScaleWhenNotAttackedHandler.BaseAddress)
-            this.Memory.ActiveEffectKeyHandler.Refresh()
+        multipliersCount := this.Memory.ReadTimeScaleMultipliersCount()
+        loop, % multipliersCount
+        {
+            ;should this if be an OR? Will the floating point number always be exactly 1.5?
+            if(this.Memory.ReadTimeScaleMultiplierByIndex(A_Index - 1) == 1.5 AND this.Memory.ReadTimeScaleMultipliersKeyByIndex(A_Index - 1) == 2774)
+                return true
+        }
         return false
     }
 
@@ -573,10 +579,6 @@ class IC_SharedFunctions_Class
     ; True/False on whether Briv should be benched based on game conditions.
     BenchBrivConditions(settings)
     {
-	;EDIT!!! Trying to avoid Everlasting Rime hit-based ROC z50 for 6j 100% Briv
-        hitZoneAvoid := Mod(this.Memory.ReadCurrentZone(), 50)
-        if (hitZoneAvoid == 37 or hitZoneAvoid == 38 or hitZoneAvoid == 42)
-            return true
         ;bench briv if jump animation override is added to list and it isn't a quick transition (reading ReadFormationTransitionDir makes sure QT isn't read too early)
         if (this.Memory.ReadTransitionOverrideSize() == 1 AND this.Memory.ReadTransitionDirection() != 2 AND this.Memory.ReadFormationTransitionDir() == 3 )
             return true
@@ -597,10 +599,6 @@ class IC_SharedFunctions_Class
     ; True/False on whether Briv should be unbenched based on game conditions.
     UnBenchBrivConditions(settings)
     {
-	;EDIT!! Trying to avoid Everlasting Rime hit-based ROC z50
-	hitZoneAvoid := Mod(this.Memory.ReadCurrentZone(), 50)
-	if (hitZoneAvoid == 37 or hitZoneAvoid == 38 or hitZoneAvoid == 42)
-	    return false
         ;keep Briv benched if 'Avoid Bosses' setting is enabled and on a boss zone
         if (settings[ "AvoidBosses" ] AND !Mod( this.Memory.ReadCurrentZone(), 5 ))
             return false
@@ -638,10 +636,7 @@ class IC_SharedFunctions_Class
         StartTime := A_TickCount
         ElapsedTime := 0
         while ( WinExist( "ahk_exe IdleDragons.exe" ) AND ElapsedTime < 10000 )
-        {
-            Sleep, 200
             ElapsedTime := A_TickCount - StartTime
-        }
         while ( WinExist( "ahk_exe IdleDragons.exe" ) ) ; Kill after 10 seconds.
             WinKill
         return
@@ -1040,7 +1035,7 @@ class IC_SharedFunctions_Class
     {
         this.SetUserCredentials()
         g_ServerCall := new IC_ServerCalls_Class( this.UserID, this.UserHash, this.InstanceID )
-        version := this.Memory.ReadBaseGameVersion()
+        version := this.Memory.ReadGameVersion()
         if(version != "")
             g_ServerCall.clientVersion := version
         tempWebRoot := this.Memory.ReadWebRoot()
