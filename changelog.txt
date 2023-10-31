@@ -1,3 +1,27 @@
+October 5, 2023
+    Added champion ID Memory Reads.
+    Updated 64 bit imports for v540.
+    Added code in InventoryView that can be enabled for debugging champion definitions.
+    Updated GetHeroHandlerIndexByChampID to handle missing ID 137. (Thanks Emmote)
+
+October 4, 2023
+    Added AHK version info to the about addon.
+
+September 21, 2023
+    Fixed champion list not being correct after ID 134.
+    Fixed bug that would exclude game windows with "33" in the title when sending key inputs.
+    Updated Imports to v535.
+
+September 13, 2023
+    Fixed a memory leak/ui freeze bug. (Thanks Ismo/Arno for helping track it down)
+    Added more sanity tests for certain functions to prevent leaks or recursion crashes.
+    Added ActiveEffectKey for JimMagicalMysteryTourHandler to allow reading stacks.
+
+September 3, 2023
+    Added sanity checks to memory functions that perform loops based on memory reads.
+    Updated Steam/EGS pointers for v533. (Sorry Kartridge/CNE users)
+    Fixed a bug that was causing a memory leak. (Thank you ImpEGamer for helping track it down)
+
 September 2, 2023
     Added an option to copy EGS launch code instead of game exe location in game location settings.
     Updated ServerCalls version number.
