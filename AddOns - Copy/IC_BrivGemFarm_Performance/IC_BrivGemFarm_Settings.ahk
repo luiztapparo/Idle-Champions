@@ -85,5 +85,3 @@ ReloadBrivGemFarmSettings(loadFromFile := True)
     if( writeSettings == true )
         g_SF.WriteObjectToJSON( A_LineFile . "\..\BrivGemFarmSettings.json" , g_BrivUserSettings )
 }
-
-#include *i %A_LineFile%\..\..\IC_BrivGemFarm_TR\IC_BrivGemFarm_TR_enable.ahk

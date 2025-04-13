@@ -1,0 +1,82 @@
+{
+	"Addon Order":[
+		{
+			"Name":"IC Core",
+			"Version":"v0.1.1"
+		},
+		{
+			"Name":"Briv Gem Farm",
+			"Version":"v1.4.7"
+		},
+		{
+			"Name":"BrivGemFarm Advanced Settings",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Briv Gem Farm Stats",
+			"Version":"v1.1.5"
+		},
+		{
+			"Name":"Chest Purchaser",
+			"Version":"v0.3.1"
+		},
+		{
+			"Name":"About",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Game Location Settings",
+			"Version":"v0.1.2"
+		},
+		{
+			"Name":"Inventory View",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Memory Functions",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Memory Functions Full Read",
+			"Version":"v0.2.2"
+		},
+		{
+			"Name":"Theme Manager",
+			"Version":"v0.0.3"
+		},
+		{
+			"Name":"Addon Example",
+			"Version":"v0.1.1"
+		}
+	],
+	"Enabled Addons":[
+		{
+			"Name":"IC Core",
+			"Version":"v0.1.1"
+		},
+		{
+			"Name":"Briv Gem Farm",
+			"Version":"v1.4.7"
+		},
+		{
+			"Name":"BrivGemFarm Advanced Settings",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Briv Gem Farm Stats",
+			"Version":"v1.1.5"
+		},
+		{
+			"Name":"About",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Inventory View",
+			"Version":"v0.2.3"
+		},
+		{
+			"Name":"Theme Manager",
+			"Version":"v0.0.3"
+		}
+	]
+}
