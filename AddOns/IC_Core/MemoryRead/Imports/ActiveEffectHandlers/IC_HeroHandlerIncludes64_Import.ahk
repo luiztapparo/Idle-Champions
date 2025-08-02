@@ -4,6 +4,7 @@
 #include %A_LineFile%\..\IC_HavilarImpHandler64_Import.ahk
 #include %A_LineFile%\..\IC_HewMaanTeamworkHandler64_Import.ahk
 #include %A_LineFile%\..\IC_JimMagicalMysteryTourHandler64_Import.ahk
+<<<<<<< Updated upstream
 #include %A_LineFile%\..\IC_NerdWagonHandler64_Import.ahk
 #include %A_LineFile%\..\IC_NordomModronCoreToolboxHandler64_Import.ahk
 #include %A_LineFile%\..\IC_NrakkUltimateAttackHandler64_Import.ahk
@@ -11,3 +12,6 @@
 #include %A_LineFile%\..\IC_SpurtWaspirationHandlerV264_Import.ahk
 #include %A_LineFile%\..\IC_ThelloraPlateausOfUnicornRunHandler64_Import.ahk
 #include %A_LineFile%\..\IC_TimeScaleWhenNotAttackedHandler64_Import.ahk
+=======
+#include %A_LineFile%\..\IC_ThelloraPlateausOfUnicornRunHandler64_Import.ahk
+>>>>>>> Stashed changes
